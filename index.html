@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Encryptallinator</title>
+    <script type="module" src="/src/main.ts" defer></script>
+  </head>
+
+  <body>
+    <main class="app-shell">
+      <section class="app-card">
+        <div class="brand-block">
+          <p class="eyebrow">Encryptallinator</p>
+          <h1>Encrypt files and folders with a password.</h1>
+          <p class="subtitle">
+            Cross-platform AES-256-GCM encryption with Argon2id-derived keys.
+          </p>
+        </div>
+
+        <form id="encryptallinator-form" class="app-form">
+          <label class="field">
+            <span class="field-label">Password</span>
+            <input
+              id="password-input"
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              placeholder="Enter a password"
+              required
+            />
+          </label>
+
+          <fieldset class="field">
+            <legend class="field-label">Mode</legend>
+            <div class="mode-toggle">
+              <label class="mode-option">
+                <input type="radio" name="mode" value="encrypt" checked />
+                <span>Encrypt</span>
+              </label>
+              <label class="mode-option">
+                <input type="radio" name="mode" value="decrypt" />
+                <span>Decrypt</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="field">
+            <div class="field-header">
+              <span class="field-label">Target</span>
+              <button id="select-button" type="button" class="secondary-button">
+                Select File/Folder
+              </button>
+            </div>
+            <p id="selected-path" class="path-display">No file or folder selected yet.</p>
+            <div id="picker-menu" class="picker-menu hidden" aria-hidden="true">
+              <button type="button" class="picker-option" data-picker="file">
+                Choose file
+              </button>
+              <button type="button" class="picker-option" data-picker="folder">
+                Choose folder
+              </button>
+            </div>
+          </div>
+
+          <button id="submit-button" type="submit" class="action-button">
+            Encrypt
+          </button>
+        </form>
+
+        <p id="status-message" class="status-message">
+          Choose a file or folder, enter a password, and then run Encryptallinator.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>
