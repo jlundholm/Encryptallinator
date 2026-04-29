@@ -26,21 +26,22 @@ body {
 .app-shell {
   min-height: 100vh;
   display: grid;
-  place-items: center;
-  padding: 32px 20px;
+  justify-items: center;
+  align-content: start;
+  padding: 18px 16px;
 }
 
 .app-card {
   width: min(100%, 720px);
-  padding: 32px;
+  padding: 24px;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 24px;
+  border-radius: 20px;
   background: rgba(51, 60, 67, 0.96);
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
 }
 
 .brand-block {
-  margin-bottom: 28px;
+  margin-bottom: 18px;
 }
 
 .eyebrow {
@@ -53,12 +54,12 @@ body {
 
 h1 {
   margin: 0;
-  font-size: clamp(2rem, 5vw, 2.7rem);
-  line-height: 1.1;
+  font-size: clamp(1.45rem, 3vw, 1.9rem);
+  line-height: 1.2;
 }
 
 .subtitle {
-  margin: 14px 0 0;
+  margin: 10px 0 0;
   max-width: 58ch;
   color: rgba(245, 247, 248, 0.74);
 }
@@ -66,23 +67,16 @@ h1 {
 .app-form {
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 16px;
 }
 
 .field {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
   margin: 0;
   padding: 0;
   border: 0;
-}
-
-.field-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
 }
 
 .field-label {
@@ -92,9 +86,9 @@ h1 {
 
 input,
 button {
-  border-radius: 14px;
+  border-radius: 12px;
   border: 1px solid transparent;
-  padding: 0.85em 1em;
+  padding: 0.75em 0.95em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
@@ -131,7 +125,7 @@ button {
 .mode-toggle {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+  gap: 10px;
 }
 
 .mode-option {
@@ -169,9 +163,10 @@ button {
   border-color: rgba(22, 112, 191, 0.8);
 }
 
-.secondary-button {
-  width: auto;
-  min-width: 176px;
+.picker-option:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  transform: none;
 }
 
 .action-button {
@@ -179,7 +174,7 @@ button {
   color: #ffffff;
   background: linear-gradient(180deg, #1670bf 0%, #0f5d9f 100%);
   border-color: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 14px 32px rgba(22, 112, 191, 0.28);
+  box-shadow: 0 10px 24px rgba(22, 112, 191, 0.24);
 }
 
 .action-button:hover:not(:disabled) {
@@ -194,9 +189,9 @@ button {
 
 .path-display {
   margin: 0;
-  padding: 14px 16px;
-  min-height: 56px;
-  border-radius: 14px;
+  padding: 12px 14px;
+  min-height: 48px;
+  border-radius: 12px;
   background: rgba(17, 21, 25, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.08);
   word-break: break-word;
@@ -210,17 +205,13 @@ button {
 .picker-menu {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.hidden {
-  display: none;
+  gap: 10px;
 }
 
 .status-message {
-  margin: 24px 0 0;
-  padding: 14px 16px;
-  border-radius: 14px;
+  margin: 18px 0 0;
+  padding: 12px 14px;
+  border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(17, 21, 25, 0.48);
   color: rgba(245, 247, 248, 0.84);
@@ -238,21 +229,12 @@ button {
 
 @media (max-width: 640px) {
   .app-card {
-    padding: 24px 18px;
+    padding: 20px 16px;
   }
 
-  .field-header,
   .picker-menu,
   .mode-toggle {
     grid-template-columns: 1fr;
     display: grid;
-  }
-
-  .field-header {
-    justify-content: stretch;
-  }
-
-  .secondary-button {
-    width: 100%;
   }
 }

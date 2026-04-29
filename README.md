@@ -56,6 +56,20 @@ Build the desktop app bundle:
 npm run tauri build
 ```
 
+Build a portable Windows executable without an installer:
+
+```powershell
+npm run tauri:build:portable
+```
+
+This writes the executable to:
+
+```text
+src-tauri\target\release\encryptallinator.exe
+```
+
+This portable `.exe` still expects the target Windows machine to have the Microsoft Edge WebView2 runtime installed.
+
 ## Building on macOS and Linux
 
 Encryptallinator already uses a cross-platform stack, but Tauri desktop builds should be produced on the **target operating system**:

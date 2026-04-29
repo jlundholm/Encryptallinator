@@ -18,12 +18,11 @@ interface ProcessResponse {
 
 const form = document.querySelector<HTMLFormElement>("#encryptallinator-form");
 const passwordInput = document.querySelector<HTMLInputElement>("#password-input");
-const selectButton = document.querySelector<HTMLButtonElement>("#select-button");
 const submitButton = document.querySelector<HTMLButtonElement>("#submit-button");
 const selectedPathLabel = document.querySelector<HTMLElement>("#selected-path");
 const statusMessage = document.querySelector<HTMLElement>("#status-message");
-const pickerMenu = document.querySelector<HTMLElement>("#picker-menu");
 const pickerButtons = document.querySelectorAll<HTMLButtonElement>("[data-picker]");
+const folderPickerButton = document.querySelector<HTMLButtonElement>('[data-picker="folder"]');
 
 let selectedPath = "";
 let currentMode: OperationMode = "encrypt";
@@ -58,33 +57,25 @@ function setBusy(isBusy: boolean) {
         : "Decrypt";
   }
 
-  if (selectButton) {
-    selectButton.disabled = isBusy;
-  }
-}
-
-function closePickerMenu() {
-  if (!pickerMenu) {
-    return;
-  }
-
-  pickerMenu.classList.add("hidden");
-  pickerMenu.setAttribute("aria-hidden", "true");
-}
-
-function togglePickerMenu() {
-  if (!pickerMenu) {
-    return;
-  }
-
-  const nextHiddenState = !pickerMenu.classList.contains("hidden");
-  pickerMenu.classList.toggle("hidden", nextHiddenState);
-  pickerMenu.setAttribute("aria-hidden", `${nextHiddenState}`);
+  pickerButtons.forEach((button) => {
+    const pickerMode = button.dataset.picker === "folder" ? "folder" : "file";
+    button.disabled = isBusy || (currentMode === "decrypt" && pickerMode === "folder");
+  });
 }
 
 function getCurrentMode(): OperationMode {
   const checkedInput = document.querySelector<HTMLInputElement>('input[name="mode"]:checked');
   return checkedInput?.value === "decrypt" ? "decrypt" : "encrypt";
+}
+
+function updatePickerAvailability() {
+  if (!folderPickerButton) {
+    return;
+  }
+
+  const decryptMode = currentMode === "decrypt";
+  folderPickerButton.disabled = decryptMode;
+  folderPickerButton.setAttribute("aria-disabled", `${decryptMode}`);
 }
 
 async function choosePath(pickerMode: PickerMode) {
@@ -101,19 +92,6 @@ async function choosePath(pickerMode: PickerMode) {
     updateSelectedPath(selection);
     setStatus(`Ready to ${currentMode} ${selection}.`);
   }
-
-  closePickerMenu();
-}
-
-async function handleSelection() {
-  currentMode = getCurrentMode();
-
-  if (currentMode === "decrypt") {
-    await choosePath("file");
-    return;
-  }
-
-  togglePickerMenu();
 }
 
 async function handleSubmit(event: SubmitEvent) {
@@ -155,14 +133,15 @@ async function handleSubmit(event: SubmitEvent) {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
+  currentMode = getCurrentMode();
   updateSelectedPath("");
-  closePickerMenu();
+  updatePickerAvailability();
   setBusy(false);
 
   document.querySelectorAll<HTMLInputElement>('input[name="mode"]').forEach((input) => {
     input.addEventListener("change", () => {
       currentMode = getCurrentMode();
-      closePickerMenu();
+      updatePickerAvailability();
       updateSelectedPath("");
       setStatus(
         currentMode === "encrypt"
@@ -173,26 +152,11 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  selectButton?.addEventListener("click", () => {
-    void handleSelection();
-  });
-
   pickerButtons.forEach((button) => {
     button.addEventListener("click", () => {
       const pickerMode = button.dataset.picker === "folder" ? "folder" : "file";
       void choosePath(pickerMode);
     });
-  });
-
-  document.addEventListener("click", (event) => {
-    if (!pickerMenu || !selectButton) {
-      return;
-    }
-
-    const target = event.target;
-    if (target instanceof Node && !pickerMenu.contains(target) && !selectButton.contains(target)) {
-      closePickerMenu();
-    }
   });
 
   form?.addEventListener("submit", (event) => {
